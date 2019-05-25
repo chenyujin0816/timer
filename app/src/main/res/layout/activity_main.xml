@@ -6,25 +6,98 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@android:color/white"
+        android:elevation="0dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/more_image_view"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_more" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/calender_image_view"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:layout_toLeftOf="@id/more_image_view"
+                android:src="@drawable/ic_calender" />
+
+            <TextView
+                android:id="@+id/rating_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="30dp"
+                android:text="给今天的自己打个分吧！"
+                android:textColor="@android:color/black"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:text="5/18 星期五"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+
+            <RatingBar
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/rating_text"
+                android:layout_centerHorizontal="true"
+                android:numStars="5"
+                android:rating="2"
+                android:stepSize="1" />
+        </RelativeLayout>
+    </android.support.design.widget.AppBarLayout>
+
     <LinearLayout
+        android:id="@+id/main_body_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@android:color/holo_red_dark"></LinearLayout>
 
-        <LinearLayout
+        <ListView
+            android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/holo_blue_dark"></LinearLayout>
+            android:layout_marginBottom="70dp"
+            android:background="@android:color/holo_blue_dark"></ListView>
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@android:drawable/ic_menu_add"
-            android:background="@android:color/black"/>
     </LinearLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/circle"
+        android:src="@android:drawable/ic_input_add"
+        app:elevation="50dp"
+        app:fabSize="normal"
+        app:layout_anchor="@id/main_body_layout"
+        app:layout_anchorGravity="bottom|center_horizontal" />
+
 
 </android.support.design.widget.CoordinatorLayout>
