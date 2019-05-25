@@ -2,6 +2,7 @@ package com.example.timer;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,7 +18,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     EditText adress;
     EditText body;
 
-//    String date =DateUtil.getCurTime();
+    String date =DateUtil.getCurTime(DateUtil.stdDatePattern);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.finish_add:
                 writeToDB();
+                Log.e("Addactivity", "write" );
+                break;
         }
     }
 
@@ -66,19 +69,35 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         String stitle;
         String sadress;
         String sbody;
+        String sbegin;
+        String send;
+        long lbegin;
+        long lend;
 
-
-
+        Log.e("Addactivity", "111" );
         stitle=title.getText().toString();
         sadress=adress.getText().toString();
         sbody=body.getText().toString();
+        sbegin=Integer.toString(begin.getHour())+":"+Integer.toString(begin.getMinute());
+        send=Integer.toString(end.getHour())+":"+Integer.toString(end.getMinute());
+        lbegin=DateUtil.getStringToDate(sbegin,DateUtil.stdTimePattern);
+        lend=DateUtil.getStringToDate(send,DateUtil.stdTimePattern);
 
+        Log.e("Addactivity", "222" );
         Record record=new Record();
+        record.setTitle(stitle);
+        record.setAddress(sadress);
+        record.setDetail(sbody);
+        record.setBeginTime(lbegin);
+        record.setEndTime(lend);
+        record.setDate(date);
 
+        Log.e("Addactivity", "333" );
+        GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
+        Log.e("Addactivity", "444" );
+        Log.e("Addactivity",GlobalUtil.getInstance().recordDatabaseHelper.readRecords(date).get(0).getTitle());
 
-
-
-//        GlobalUtil.getInstance().recordDatabaseHelper.addRecord();
+        finish();
 
     }
 }
