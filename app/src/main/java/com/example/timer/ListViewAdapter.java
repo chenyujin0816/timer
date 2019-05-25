@@ -68,6 +68,7 @@ class ViewHolder{
         time=itemView.findViewById(R.id.item_time_text);
 
         title.setText(record.getTitle());
-        time.setText("6.30");
+        time.setText(DateUtil.getDateToString(record.getBeginTime(),DateUtil.stdTimePattern));
+        time.append("-"+DateUtil.getDateToString(record.getEndTime(),DateUtil.stdTimePattern));
     }
 }

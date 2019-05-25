@@ -9,7 +9,7 @@ import java.util.Date;
 public class DateUtil {
 
     public static final String stdDatePattern="yyyy-MM-dd";
-    public static final String stdTimePattern="HH-mm";
+    public static final String stdTimePattern="HH:mm";
 
     public static long getCurTimeLong(){
         long time=System.currentTimeMillis();

@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ListView listView;
     private FloatingActionButton fab;
 
+    private String currentDate;
+
     private LinkedList<Record> records=new LinkedList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,AddActivity.class);
+                intent.putExtra("date",currentDate);
+                startActivity(intent);
+            }
+        });
+
+        currentDate=DateUtil.getDateToString(DateUtil.getCurTimeLong(),DateUtil.stdDatePattern);
         String pattern="MM/dd";
         dateTextView.setText(DateUtil.getCurTime(pattern)+" "+DateUtil.getWeek(DateUtil.getCurTimeLong()));
     }
@@ -108,12 +120,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onStart();
         String date=getIntent().getStringExtra("date");
         if(date!=null){
+            currentDate=date;
             records=GlobalUtil.getInstance().recordDatabaseHelper.readRecords(date);
             listViewAdapter.setDate(records);
             long dateLong=DateUtil.getStringToDate(date,DateUtil.stdDatePattern);
             String pattern="MM/dd";
             dateTextView.setText(DateUtil.getDateToString(dateLong,pattern)+" "+DateUtil.getWeek(dateLong));
-
         }
     }
 }
