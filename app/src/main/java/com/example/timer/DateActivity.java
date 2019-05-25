@@ -17,7 +17,7 @@ public class DateActivity extends AppCompatActivity implements CalendarView.OnDa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_date);
 
-        calendarView=findViewById(R.id.calender_view);
+        calendarView=findViewById(R.id.calendar_view);
         calendarView.setOnDateChangeListener(this);
 
 

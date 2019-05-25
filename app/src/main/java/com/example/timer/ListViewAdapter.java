@@ -44,8 +44,10 @@ public class ListViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if(convertView==null){
-            convertView= inflater.inflate(R.layout.item_layout_left,null);
-
+            if(position%2==0)
+                convertView= inflater.inflate(R.layout.item_layout_left,null);
+            else
+                convertView=inflater.inflate(R.layout.item_layout_right,null);
             Record record= (Record) getItem(position);
             viewHolder=new ViewHolder(convertView,record);
 
