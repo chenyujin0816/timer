@@ -100,6 +100,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Record record= (Record) listViewAdapter.getItem(position);
+                Intent intent=new Intent(MainActivity.this,ScanActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("record",record);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
         currentDate=DateUtil.getDateToString(DateUtil.getCurTimeLong(),DateUtil.stdDatePattern);
         String pattern="MM/dd";
         dateTextView.setText(DateUtil.getCurTime(pattern)+" "+DateUtil.getWeek(DateUtil.getCurTimeLong()));

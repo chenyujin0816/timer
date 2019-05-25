@@ -18,7 +18,7 @@ public class RecordDatabaseHelper extends SQLiteOpenHelper {
             +"uuid TEXT,"
             +"title TEXT NOT NULL,"
             +"detail TEXT,"
-            +"date DATE,"
+            +"date DATE NOT NULL,"
             +"beginTime INTEGER,"
             +"endTime INTEGER,"
             +"address TEXT)";
