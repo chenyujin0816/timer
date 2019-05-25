@@ -16,10 +16,10 @@ import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private ImageView calenderImageView;
-    private ImageView moreImageView;
+    private ImageView calendarImageView;
     private TextView dateTextView;
     private RatingBar ratingBar;
+    private TextView ratingText;
 
     private ListViewAdapter listViewAdapter;
     private ListView listView;
@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         initView();
         initData();
-
         listViewAdapter=new ListViewAdapter(this);
         String pattern="yyyy-MM-dd";
         records=GlobalUtil.getInstance().recordDatabaseHelper.readRecords(DateUtil.getCurTime(pattern));
@@ -57,14 +56,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void initView() {
-        calenderImageView=findViewById(R.id.calender_image_view);
-        moreImageView=findViewById(R.id.more_image_view);
+        calendarImageView =findViewById(R.id.calendar_image_view);
         dateTextView=findViewById(R.id.date_text);
         ratingBar=findViewById(R.id.rating_bar);
+        ratingText=findViewById(R.id.rating_text);
         listView=findViewById(R.id.list_view);
         fab=findViewById(R.id.floatingActionButton);
+
         listView.setOnItemClickListener(this);
-        calenderImageView.setOnClickListener(new View.OnClickListener() {
+        calendarImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,DateActivity.class);
@@ -72,6 +72,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                ratingBar.setIsIndicator(true);
+                ratingText.setText("长安此处修改评分！");
+            }
+        });
+
+        ratingText.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ratingBar.setIsIndicator(false);
+                ratingText.setText("给今天的自己打个分吧！");
+                return false;
+            }
+        });
+
+        String pattern="MM/dd";
+        dateTextView.setText(DateUtil.getCurTime(pattern)+" "+DateUtil.getWeek(DateUtil.getCurTimeLong()));
     }
 
     @Override
@@ -89,9 +108,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onStart();
         String date=getIntent().getStringExtra("date");
         if(date!=null){
-            Log.d("MainActivity",date);
             records=GlobalUtil.getInstance().recordDatabaseHelper.readRecords(date);
             listViewAdapter.setDate(records);
+            long dateLong=DateUtil.getStringToDate(date,DateUtil.stdDatePattern);
+            String pattern="MM/dd";
+            dateTextView.setText(DateUtil.getDateToString(dateLong,pattern)+" "+DateUtil.getWeek(dateLong));
+
         }
     }
 }

@@ -19,21 +19,12 @@
             android:layout_height="match_parent">
 
             <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/more_image_view"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="10dp"
-                android:src="@drawable/ic_more" />
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/calender_image_view"
+                android:id="@+id/calendar_image_view"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
-                android:layout_toLeftOf="@id/more_image_view"
+                android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_calender" />
 
             <TextView
@@ -67,7 +58,8 @@
                 android:layout_centerHorizontal="true"
                 android:numStars="5"
                 android:rating="2"
-                android:stepSize="1" />
+                android:stepSize="1"
+                android:isIndicator="false"/>
         </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -83,7 +75,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="70dp"
-            android:background="@android:color/holo_blue_dark"></ListView>
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@android:color/white"></ListView>
 
     </LinearLayout>
 
