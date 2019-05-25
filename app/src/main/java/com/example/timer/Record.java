@@ -10,6 +10,7 @@ public class Record implements Serializable {
     private String date;
     private long beginTime;
     private long endTime;
+
     private String uuid;
 
 

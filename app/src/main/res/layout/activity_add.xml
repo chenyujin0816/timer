@@ -87,7 +87,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="13"
+                android:layout_weight="12"
                 android:orientation="horizontal"
                 android:weightSum="10"
                 >
@@ -123,7 +123,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="13"
+                android:layout_weight="12"
                 android:orientation="horizontal"
                 android:weightSum="10"
                 >
@@ -160,7 +160,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="13"
+                android:layout_weight="16"
                 android:orientation="horizontal"
                 android:weightSum="10"
                 >
@@ -195,7 +195,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="13"
+                android:layout_weight="16"
                 android:orientation="horizontal"
                 android:weightSum="10"
                 >
@@ -249,19 +249,19 @@
                         android:textAlignment="center"/>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="8"
-                    android:gravity="center_vertical">
+                    android:layout_weight="8">
 
                     <EditText
+                        android:id="@+id/body"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:id="@+id/body"
                         android:lines="10"
-                        android:textAlignment="viewStart"/>
+                        android:gravity="top"
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
 
