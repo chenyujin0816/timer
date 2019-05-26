@@ -31,13 +31,13 @@
                 android:src="@drawable/ic_left" />
 
             <TextView
-                android:id="@+id/date_text"
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="20sp"
-                android:text="Activity"
+                android:text="data"
                 android:textColor="@android:color/black"
                 android:textSize="15sp" />
 
@@ -58,7 +58,7 @@
         android:layout_height="0dp"
         android:background="@android:color/white"
         android:orientation="horizontal"
-        android:layout_weight="60"
+        android:layout_weight="70"
         android:weightSum="100">
 
         <LinearLayout
@@ -86,20 +86,19 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:gravity="center">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="13sp"
+                        android:textSize="16sp"
                         android:text="Title"
                         android:textAlignment="center"/>
-
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="8"
+                    android:layout_weight="7"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -122,7 +121,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:gravity="center">
 
                     <TextView
@@ -130,13 +129,13 @@
                         android:layout_height="wrap_content"
                         android:text="Destination"
                         android:textAlignment="center"
-                        android:textSize="13sp" />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="8"
+                    android:layout_weight="7"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -159,12 +158,12 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:gravity="center">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="13sp"
+                        android:textSize="16sp"
                         android:text="Begin"
                         android:textAlignment="center"/>
 
@@ -172,7 +171,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="8"
+                    android:layout_weight="7"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -195,12 +194,12 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:gravity="center">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="13sp"
+                        android:textSize="16sp"
                         android:text="End"
                         android:textAlignment="center"/>
 
@@ -208,7 +207,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="8"
+                    android:layout_weight="7"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -231,12 +230,12 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:gravity="top">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="13sp"
+                        android:textSize="16sp"
                         android:text="Body"
                         android:textAlignment="center"/>
 
@@ -293,7 +292,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:orientation="horizontal"
                 android:weightSum="3">
                 <android.support.v7.widget.AppCompatImageView
@@ -324,7 +323,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"></LinearLayout>
+                android:layout_weight="4"></LinearLayout>
         </LinearLayout>
 
         <LinearLayout

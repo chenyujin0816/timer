@@ -1,5 +1,6 @@
 package com.example.timer;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,13 +19,16 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     EditText adress;
     EditText body;
 
-    String date =DateUtil.getCurTime(DateUtil.stdDatePattern);
+    Record record;
+    Intent intent;
+    String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
+        intent=this.getIntent();
         initView();
         setListener();
 
@@ -44,6 +48,14 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         title=(EditText)findViewById(R.id.title);
         adress=(EditText)findViewById(R.id.address);
         body=(EditText)findViewById(R.id.body);
+        Log.e("aaaa", ""+intent.getStringExtra("date") );
+        if (intent.getStringExtra("date")!=null){
+            record=new Record();
+            record.setDate(intent.getStringExtra("date"));
+        }
+        else if(intent.getSerializableExtra("edit")!=null){
+            record=(Record)intent.getSerializableExtra("edit");
+        }
     }
 
     private void setListener(){
@@ -60,7 +72,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.finish_add:
                 writeToDB();
-                Log.e("Addactivity", "write" );
+                finish();
                 break;
         }
     }
@@ -74,7 +86,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         long lbegin;
         long lend;
 
-        Log.e("Addactivity", "111" );
         stitle=title.getText().toString();
         sadress=adress.getText().toString();
         sbody=body.getText().toString();
@@ -83,8 +94,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         lbegin=DateUtil.getStringToDate(sbegin,DateUtil.stdTimePattern);
         lend=DateUtil.getStringToDate(send,DateUtil.stdTimePattern);
 
-        Log.e("Addactivity", "222" );
-        Record record=new Record();
         record.setTitle(stitle);
         record.setAddress(sadress);
         record.setDetail(sbody);
@@ -92,12 +101,14 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         record.setEndTime(lend);
         record.setDate(date);
 
-        Log.e("Addactivity", "333" );
-        GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
-        Log.e("Addactivity", "444" );
-        Log.e("Addactivity",GlobalUtil.getInstance().recordDatabaseHelper.readRecords(date).get(0).getTitle());
+        if(intent.getSerializableExtra("edit")!=null){
+            GlobalUtil.getInstance().recordDatabaseHelper.editRecord(record.getUuid(),record);
+        }
+        else{
+            GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
+            Log.e("Addactivity",GlobalUtil.getInstance().recordDatabaseHelper.readRecords(date).get(0).getTitle());
+        }
 
         finish();
-
     }
 }
