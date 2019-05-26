@@ -21,7 +21,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     Record record;
     Intent intent;
-    String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,14 +98,13 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         record.setDetail(sbody);
         record.setBeginTime(lbegin);
         record.setEndTime(lend);
-        record.setDate(date);
 
         if(intent.getSerializableExtra("edit")!=null){
             GlobalUtil.getInstance().recordDatabaseHelper.editRecord(record.getUuid(),record);
         }
         else{
             GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
-            Log.e("Addactivity",GlobalUtil.getInstance().recordDatabaseHelper.readRecords(date).get(0).getTitle());
+//            Log.e("Addactivity",GlobalUtil.getInstance().recordDatabaseHelper.readRecords(date).get(0).getTitle());
         }
 
         finish();
