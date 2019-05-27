@@ -12,7 +12,7 @@ public class GlobalUtil {
 
     public void setContext(Context context){
         this.context=context;
-        recordDatabaseHelper=new RecordDatabaseHelper(context,RecordDatabaseHelper.DB_NAME,null,1);
+        recordDatabaseHelper=new RecordDatabaseHelper(context);
     }
 
     public static GlobalUtil getInstance(){

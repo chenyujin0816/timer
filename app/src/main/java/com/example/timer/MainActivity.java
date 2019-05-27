@@ -14,8 +14,9 @@ import android.widget.TextView;
 
 import java.util.LinkedList;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private ImageView calendarImageView;
     private TextView dateTextView;
     private RatingBar ratingBar;
@@ -27,7 +28,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private String currentDate;
 
-    private LinkedList<Record> records=new LinkedList<>();
+    private LinkedList<Record> records = new LinkedList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,19 +39,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         initView();
         initData();
-        listViewAdapter=new ListViewAdapter(this);
-        String pattern="yyyy-MM-dd";
-        records=GlobalUtil.getInstance().recordDatabaseHelper.readRecords(DateUtil.getCurTime(pattern));
+        listViewAdapter = new ListViewAdapter(this);
+        String pattern = "yyyy-MM-dd";
+        records = GlobalUtil.getInstance().recordDatabaseHelper.readRecords(DateUtil.getCurTime(pattern));
         listViewAdapter.setDate(records);
         listView.setAdapter(listViewAdapter);
     }
 
     private void initData() {
-        Record record=new Record();
+        Record record = new Record();
         record.setTitle("hhhhh");
-        String pattern="yyyy-MM-dd";
+        String pattern = "yyyy-MM-dd";
         record.setDate(DateUtil.getCurTime(pattern));
-        Log.d("MainActivity",record.getDate());
+        Log.d("MainActivity", record.getDate());
         GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
         GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
         GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
@@ -58,19 +60,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void initView() {
-        calendarImageView =findViewById(R.id.calendar_image_view);
-        dateTextView=findViewById(R.id.date_text);
-        ratingBar=findViewById(R.id.rating_bar);
-        ratingText=findViewById(R.id.rating_text);
-        listView=findViewById(R.id.list_view);
-        fab=findViewById(R.id.floatingActionButton);
+        calendarImageView = findViewById(R.id.calendar_image_view);
+        dateTextView = findViewById(R.id.date_text);
+        ratingBar = findViewById(R.id.rating_bar);
+        ratingText = findViewById(R.id.rating_text);
+        listView = findViewById(R.id.list_view);
+        fab = findViewById(R.id.floatingActionButton);
 
-        listView.setOnItemClickListener(this);
         calendarImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,DateActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, DateActivity.class);
+                startActivityForResult(intent,1);
             }
         });
 
@@ -94,8 +95,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,AddActivity.class);
-                intent.putExtra("date",currentDate);
+                Intent intent = new Intent(MainActivity.this, AddActivity.class);
+                intent.putExtra("date", currentDate);
                 startActivity(intent);
             }
         });
@@ -103,41 +104,36 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Record record= (Record) listViewAdapter.getItem(position);
-                Intent intent=new Intent(MainActivity.this,ScanActivity.class);
-                Bundle bundle=new Bundle();
-                bundle.putSerializable("record",record);
+                Record record = (Record) listViewAdapter.getItem(position);
+                Intent intent = new Intent(MainActivity.this, ScanActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("record", record);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
 
-        currentDate=DateUtil.getDateToString(DateUtil.getCurTimeLong(),DateUtil.stdDatePattern);
-        String pattern="MM/dd";
-        dateTextView.setText(DateUtil.getCurTime(pattern)+" "+DateUtil.getWeek(DateUtil.getCurTimeLong()));
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        final Record selectedRecord=records.get(position);
-        Intent intent=new Intent(MainActivity.this,ScanActivity.class);
-        Bundle bundle=new Bundle();
-        bundle.putSerializable("record",selectedRecord);
-        intent.putExtras(bundle);
-        startActivityForResult(intent,1);
+        currentDate = DateUtil.getDateToString(DateUtil.getCurTimeLong(), DateUtil.stdDatePattern);
+        String pattern = "MM/dd";
+        dateTextView.setText(DateUtil.getCurTime(pattern) + " " + DateUtil.getWeek(DateUtil.getCurTimeLong()));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        String date=getIntent().getStringExtra("date");
-        if(date!=null){
-            currentDate=date;
-            records=GlobalUtil.getInstance().recordDatabaseHelper.readRecords(date);
-            listViewAdapter.setDate(records);
-            long dateLong=DateUtil.getStringToDate(date,DateUtil.stdDatePattern);
-            String pattern="MM/dd";
-            dateTextView.setText(DateUtil.getDateToString(dateLong,pattern)+" "+DateUtil.getWeek(dateLong));
-        }
+        reloadPage();
+    }
+
+    private void reloadPage(){
+        records = GlobalUtil.getInstance().recordDatabaseHelper.readRecords(currentDate);
+        listViewAdapter.setDate(records);
+        long dateLong = DateUtil.getStringToDate(currentDate, DateUtil.stdDatePattern);
+        String pattern = "MM/dd";
+        dateTextView.setText(DateUtil.getDateToString(dateLong, pattern) + " " + DateUtil.getWeek(dateLong));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        currentDate = data.getStringExtra("date");
     }
 }

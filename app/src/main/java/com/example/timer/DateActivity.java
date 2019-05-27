@@ -39,7 +39,7 @@ public class DateActivity extends AppCompatActivity implements CalendarView.OnDa
             date+="-"+dayOfMonth;
         }
         intent.putExtra("date",date);
-        startActivity(intent);
+        setResult(1,intent);
         finish();
     }
 }

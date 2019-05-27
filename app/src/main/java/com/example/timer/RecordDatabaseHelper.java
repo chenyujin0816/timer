@@ -5,26 +5,31 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.RelativeLayout;
+
+import com.example.timer.Data.RecordProvider;
+import com.example.timer.Data.TimerContract;
 
 import java.util.LinkedList;
 
 public class RecordDatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DB_NAME="Record";
+    public static final String DB_NAME="Records";
+    public static final int DB_VERSION=1;
 
-    private static final String CREATE_RECORD_DB="CREATE TABLE Record("
+    private static final String CREATE_RECORD_DB="CREATE TABLE Records("
             +"id INTEGER PRIMARY KEY AUTOINCREMENT,"
             +"uuid TEXT,"
             +"title TEXT NOT NULL,"
             +"detail TEXT,"
             +"date DATE NOT NULL,"
-            +"beginTime INTEGER,"
-            +"endTime INTEGER,"
+            +"beginTime INTEGER NOT NULL,"
+            +"endTime INTEGER NOT NULL,"
             +"address TEXT)";
 
-    public RecordDatabaseHelper( Context context,  String name,  SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public RecordDatabaseHelper( Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
@@ -64,7 +69,7 @@ public class RecordDatabaseHelper extends SQLiteOpenHelper {
     public LinkedList<Record> readRecords(String dataStr){
         LinkedList<Record> records=new LinkedList<>();
         SQLiteDatabase db=this.getReadableDatabase();
-        Cursor cursor=db.rawQuery("SELECT DISTINCT * FROM Record WHERE date=? ORDER BY beginTime ASC",
+        Cursor cursor=db.rawQuery("SELECT DISTINCT * FROM Records WHERE date=? ORDER BY beginTime ASC",
                 new String[]{dataStr});
         while(cursor.moveToNext()){
             Record record=new Record();
@@ -89,10 +94,36 @@ public class RecordDatabaseHelper extends SQLiteOpenHelper {
         return records;
     }
 
+    public Record readRecord(String uid){
+        LinkedList<Record> records=new LinkedList<>();
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor cursor=db.rawQuery("SELECT DISTINCT * FROM Records WHERE uuid=?",
+                new String[]{uid});
+        Record record=new Record();
+        if(cursor.moveToFirst()){
+            String uuid=cursor.getString(cursor.getColumnIndex("uuid"));
+            String title=cursor.getString(cursor.getColumnIndex("title"));
+            String detail=cursor.getString(cursor.getColumnIndex("detail"));
+            String date=cursor.getString(cursor.getColumnIndex("date"));
+            long beginTime=cursor.getLong(cursor.getColumnIndex("beginTime"));
+            long endTime=cursor.getLong(cursor.getColumnIndex("endTime"));
+            String address=cursor.getString(cursor.getColumnIndex("address"));
+
+            record.setUuid(uuid);
+            record.setTitle(title);
+            record.setDetail(detail);
+            record.setAddress(address);
+            record.setDate(date);
+            record.setBeginTime(beginTime);
+            record.setEndTime(endTime);
+        }
+        return record;
+    }
+
     public LinkedList<String> getAvaliableDate(){
         LinkedList<String> dates=new LinkedList<>();
         SQLiteDatabase db=this.getWritableDatabase();
-        Cursor cursor=db.rawQuery("SELECT DISTINCT * FROM Record ORDER BY date ASC",
+        Cursor cursor=db.rawQuery("SELECT DISTINCT * FROM Records ORDER BY date ASC",
                 new String[]{});
 
         while(cursor.moveToNext()){
