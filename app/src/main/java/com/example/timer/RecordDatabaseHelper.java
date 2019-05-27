@@ -5,11 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.RelativeLayout;
-
-import com.example.timer.Data.RecordProvider;
-import com.example.timer.Data.TimerContract;
 
 import java.util.LinkedList;
 

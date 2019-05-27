@@ -3,14 +3,15 @@ package com.example.timer;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ScanActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Record record = new Record();
-    TextView data;
+    Record record;
+    TextView date;
     TextView title;
     TextView adress;
     TextView begin;
@@ -26,24 +27,19 @@ public class ScanActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
 
-        record.setTitle("sdfsf");
-        record.setAddress("sffgg");
-        record.setEndTime(System.nanoTime());
-        record.setEndTime(System.nanoTime());
-        record.setDetail("sdfsfsffff");
-        record.setDate("adadsdad");
 
         initView();
+        intent=getIntent();
+        record=(Record) intent.getSerializableExtra("record");
         initPage();
         setListener();
-        intent=getIntent();
 
 
     }
 
     private void initView(){
 
-        data=(TextView)findViewById(R.id.date);
+        date=(TextView)findViewById(R.id.date);
         title=(TextView) findViewById(R.id.title);
         adress=(TextView)findViewById(R.id.address);
         begin=(TextView)findViewById(R.id.begin);
@@ -55,7 +51,7 @@ public class ScanActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initPage(){
-        data.setText(record.getDate());
+        date.setText(record.getDate());
         title.setText(record.getTitle());
         adress.setText(record.getAddress());
         body.setText(record.getDetail());
@@ -67,6 +63,36 @@ public class ScanActivity extends AppCompatActivity implements View.OnClickListe
         edit.setOnClickListener(this);
         share.setOnClickListener(this);
         delete.setOnClickListener(this);
+    }
+
+    private void sharePicture(){
+        String url=new String();
+        url=getPicture();
+    }
+
+    private String getPicture(){
+
+//        View dView = getWindow().getDecorView();
+//        dView.setDrawingCacheEnabled(true);
+//        dView.buildDrawingCache();
+//        Bitmap bitmap = Bitmap.createBitmap(dView.getDrawingCache());
+//        if (bitmap != null) {
+//            try {
+//                // 获取内置SD卡路径
+//                String sdCardPath = Environment.getExternalStorageDirectory().getPath();
+//                // 图片文件路径
+//                String filePath = sdCardPath + File.separator + "screenshot.png";
+//                File file = new File(filePath);
+//                FileOutputStream os = new FileOutputStream(file);
+//                bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
+//                os.flush();
+//                os.close();
+//                DebugLog.d("a7888", "存储完成");
+//            } catch (Exception e) {
+//            }
+//        }
+
+        return null;
     }
 
     @Override
@@ -84,5 +110,13 @@ public class ScanActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        record=GlobalUtil.getInstance().recordDatabaseHelper.readRecord(record.getUuid());
+        initPage();
     }
 }
