@@ -1,12 +1,18 @@
 package com.example.timer;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class ScanActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,6 +26,7 @@ public class ScanActivity extends AppCompatActivity implements View.OnClickListe
     ImageView edit;
     ImageView share;
     ImageView delete;
+    ImageView back;
     Intent intent;
 
     @Override
@@ -48,6 +55,7 @@ public class ScanActivity extends AppCompatActivity implements View.OnClickListe
         edit=(ImageView)findViewById(R.id.edit);
         share=(ImageView)findViewById(R.id.share);
         delete=(ImageView)findViewById(R.id.delete);
+        back=(ImageView)findViewById(R.id.cancle_scan);
     }
 
     private void initPage(){
@@ -63,6 +71,7 @@ public class ScanActivity extends AppCompatActivity implements View.OnClickListe
         edit.setOnClickListener(this);
         share.setOnClickListener(this);
         delete.setOnClickListener(this);
+        back.setOnClickListener(this);
     }
 
     private void sharePicture(){
@@ -72,38 +81,43 @@ public class ScanActivity extends AppCompatActivity implements View.OnClickListe
 
     private String getPicture(){
 
-//        View dView = getWindow().getDecorView();
+        String filePath =new String();
+
+        View dView = getWindow().getDecorView();
 //        dView.setDrawingCacheEnabled(true);
 //        dView.buildDrawingCache();
-//        Bitmap bitmap = Bitmap.createBitmap(dView.getDrawingCache());
-//        if (bitmap != null) {
-//            try {
-//                // 获取内置SD卡路径
-//                String sdCardPath = Environment.getExternalStorageDirectory().getPath();
-//                // 图片文件路径
-//                String filePath = sdCardPath + File.separator + "screenshot.png";
-//                File file = new File(filePath);
-//                FileOutputStream os = new FileOutputStream(file);
-//                bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
-//                os.flush();
-//                os.close();
-//                DebugLog.d("a7888", "存储完成");
-//            } catch (Exception e) {
-//            }
-//        }
-
-        return null;
+        Bitmap bitmap = Bitmap.createBitmap(dView.getDrawingCache());
+        if (bitmap != null) {
+            try {
+                // 获取内置SD卡路径
+                String sdCardPath = Environment.getExternalStorageDirectory().getPath();
+                // 图片文件路径
+                filePath = sdCardPath + File.separator + "screenshot.png";
+                File file = new File(filePath);
+                FileOutputStream os = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
+                os.flush();
+                os.close();
+                Log.e("a7888", "存储完成");
+            } catch (Exception e) {
+            }
+        }
+        return filePath;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.cancle_scan:
+                finish();
+                break;
             case R.id.edit:
                 Intent intent=new Intent(ScanActivity.this,AddActivity.class);
                 intent.putExtra("edit",record);
                 startActivity(intent);
                 break;
             case R.id.share:
+                sharePicture();
                 break;
             case R.id.delete:
                 GlobalUtil.getInstance().recordDatabaseHelper.removeRecord(record.getUuid());

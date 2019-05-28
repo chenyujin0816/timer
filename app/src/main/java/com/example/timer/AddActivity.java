@@ -47,14 +47,34 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         title=(EditText)findViewById(R.id.title);
         adress=(EditText)findViewById(R.id.address);
         body=(EditText)findViewById(R.id.body);
-        Log.e("aaaa", ""+intent.getStringExtra("date") );
         if (intent.getStringExtra("date")!=null){
             record=new Record();
             record.setDate(intent.getStringExtra("date"));
         }
         else if(intent.getSerializableExtra("edit")!=null){
             record=(Record)intent.getSerializableExtra("edit");
+            initPage();
         }
+    }
+
+    private void initPage(){
+        title.setText(record.getTitle());
+        adress.setText(record.getAddress());
+        body.setText(record.getDetail());
+
+        String hour =new String();
+        String min=new String();
+        String time=new String();
+        time=DateUtil.getDateToString(record.getBeginTime(),DateUtil.stdTimePattern);
+        hour=time.substring(0,1);
+        min=time.substring(3,4);
+        begin.setHour(Integer.parseInt(hour));
+        begin.setMinute(Integer.parseInt(min));
+        time=DateUtil.getDateToString(record.getEndTime(),DateUtil.stdTimePattern);
+        hour=time.substring(0,1);
+        min=time.substring(3,4);
+        end.setHour(Integer.parseInt(hour));
+        end.setMinute(Integer.parseInt(min));
     }
 
     private void setListener(){
