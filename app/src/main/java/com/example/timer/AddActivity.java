@@ -1,5 +1,8 @@
 package com.example.timer;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +24,14 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     Record record;
     Intent intent;
+
+    String stitle;
+    String sadress;
+    String sbody;
+    String sbegin;
+    String send;
+    long lbegin;
+    long lend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,19 +102,11 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.finish_add:
                 writeToDB();
-                finish();
                 break;
         }
     }
 
     public void writeToDB(){
-        String stitle;
-        String sadress;
-        String sbody;
-        String sbegin;
-        String send;
-        long lbegin;
-        long lend;
 
         stitle=title.getText().toString();
         sadress=adress.getText().toString();
@@ -120,13 +123,66 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         record.setEndTime(lend);
 
         if(intent.getSerializableExtra("edit")!=null){
-            GlobalUtil.getInstance().recordDatabaseHelper.editRecord(record.getUuid(),record);
+            if(isAnyNull()) {
+                GlobalUtil.getInstance().recordDatabaseHelper.editRecord(record.getUuid(),record);
+                finish();
+            }
+            else{
+                Log.e("isA", ""+isAnyNull() );
+                sendADialog();
+            }
         }
-        else{
-            GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
-//            Log.e("Addactivity",GlobalUtil.getInstance().recordDatabaseHelper.readRecords(date).get(0).getTitle());
+        else if(intent.getSerializableExtra("date")!=null){
+            if (isAnyNull()){
+                GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
+                finish();
+            }
+            else {
+                sendADialog();
+            }
         }
 
-        finish();
+    }
+
+    private boolean isAnyNull(){
+        if (stitle.length()==0)
+            return false;
+        else if(sadress.length()==0)
+            return false;
+        else if (sbody.length()==0)
+            return false;
+        else if(lbegin>lend)
+            return false;
+        else
+            return true;
+    }
+
+    private void sendADialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddActivity.this);
+        if(stitle.length()==0){
+            builder.setTitle("Title为空");
+            builder.setMessage("为什么没有标题？");
+        }
+        else if(sadress.length()==0){
+            builder.setTitle("Destination为空");
+            builder.setMessage("为什么没有地点？");
+        }
+        else if(lbegin>lend){
+            builder.setTitle("时间出错");
+            builder.setMessage("开始时间迟于结束时间！");
+        }
+        else if(sbody.length()==0){
+            builder.setTitle("内容为空");
+            builder.setMessage("什么也不做吗？");
+        }
+
+        builder.setPositiveButton("再改改", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.e("setPosition", "sure" );
+            }
+        });
+
+        builder.show();
     }
 }
