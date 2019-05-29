@@ -147,10 +147,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private boolean isAnyNull(){
         if (stitle.length()==0)
             return false;
-        else if(sadress.length()==0)
-            return false;
-        else if (sbody.length()==0)
-            return false;
         else if(lbegin>lend)
             return false;
         else
@@ -163,18 +159,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             builder.setTitle("Title为空");
             builder.setMessage("为什么没有标题？");
         }
-        else if(sadress.length()==0){
-            builder.setTitle("Destination为空");
-            builder.setMessage("为什么没有地点？");
-        }
+
         else if(lbegin>lend){
             builder.setTitle("时间出错");
             builder.setMessage("开始时间迟于结束时间！");
         }
-        else if(sbody.length()==0){
-            builder.setTitle("内容为空");
-            builder.setMessage("什么也不做吗？");
-        }
+
 
         builder.setPositiveButton("再改改", new DialogInterface.OnClickListener() {
             @Override
