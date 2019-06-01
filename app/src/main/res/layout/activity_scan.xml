@@ -92,7 +92,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text="Title"
+                        android:text="标题"
                         android:textAlignment="center"/>
                 </LinearLayout>
                 <LinearLayout
@@ -127,7 +127,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Destination"
+                        android:text="目的地"
                         android:textAlignment="center"
                         android:textSize="16sp" />
 
@@ -164,7 +164,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text="Begin"
+                        android:text="开始时间"
                         android:textAlignment="center"/>
 
                 </LinearLayout>
@@ -200,7 +200,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text="End"
+                        android:text="结束时间"
                         android:textAlignment="center"/>
 
                 </LinearLayout>
@@ -236,7 +236,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text="Body"
+                        android:text="内容"
                         android:textAlignment="center"/>
 
                 </LinearLayout>
