@@ -19,7 +19,7 @@
 * [项目环境](#项目环境)
 * [人员分工](#人员分工)
 * [会议记录](#会议记录)
-* [实现过程](#实现过程)
+* [原型系统](#原型系统)
 
 # 项目名称
 时间管理助手
@@ -397,5 +397,16 @@ FE-10 | N | Y
 3.保持观点：  
 &ensp;&ensp;&ensp;&ensp;&ensp;甲方想要只管看到产品界面，乙方暂时无法提供，需要在下一次会议展示。  
 
-# 实现过程
-	
+# 原型系统
+主界面，可以查看当天日程  
+![main](https://github.com/jiecaojun/timer/blob/master/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%85%B3%E7%B3%BB.png)  
+日历界面，进入后可选日期  
+![calenser](https://github.com/jiecaojun/timer/blob/master/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%85%B3%E7%B3%BB.png)  
+编辑界面，编辑某个活动的信息  
+![add](https://github.com/jiecaojun/timer/blob/master/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%85%B3%E7%B3%BB.png)  
+浏览界面，浏览某个活动的信息  
+![scan](https://github.com/jiecaojun/timer/blob/master/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%85%B3%E7%B3%BB.png) 
+分享至朋友圈  
+![share](https://github.com/jiecaojun/timer/blob/master/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%85%B3%E7%B3%BB.png)  
+编辑信息有限制  
+![failure](https://github.com/jiecaojun/timer/blob/master/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%85%B3%E7%B3%BB.png)  
