@@ -1,12 +1,17 @@
 # 目录  
 * [项目名称](#项目名称)
 * [人员分工](#人员分工)
-* [业务需求](#业务需求)
+* [业务需求分析](#业务需求分析)
 	1. [应用背景](#应用背景)
 	2. [业务机遇](#业务机遇)
 	3. [业务目标](#业务目标)
 	4. [业务风险](#业务风险)
-
+* [需求分析](#需求分析)
+	1. [创建上下文图](#创建上下文图)
+	2. [发现并建立DFD片段](#发现并建立DFD片段)
+	3. [0层图](#0层图)
+	4. [微规格说明](#微规格说明)
+	5. [数据字典](#数据字典)
 * [项目前景](#项目前景)
 	1. [前景概述](#前景概述)
 	2. [主要特性](#主要特性)
@@ -37,6 +42,104 @@
 ## 业务风险
 应用市场中有关APP太多，用户各自的需求不同，需要满足的需求也不同，TIMER的设计不足以满足所有需求，导致使用本产品的用户过少。
 可能性：0.6 影响：9
+
+
+# 业务需求分析
+### 创建上下文图
+| 业务需求        | 实现业务需求需要的系统特性        | 局部解决方案的对外交互 |
+| --------------- |---------------| ---------|
+| BR-1:任务设定      |SF-1：日期总览 | 外部输入：当前日期时间及日历内部输出：被选定日期 |
+|    | SF-2：保存任务     |  外部输入：用户的任务内容外部输出：本地数据库的任务数据 |
+|    | SF-3：修改任务     |  外部输入：用户的任务内容外部输出：本地数据库的任务数据 |
+|  BR-2:任务管理建议   | SF-4：在截止日期之前额能够在通知栏提醒    |   内部输入：截止时间倒计时外部输出：操作系统广播通知 |
+|  BR-3:分享   | SF-5：当前页面截图    |   外部输入：用户的分享指令外部输出：给操作系统的截图信号 |
+|     | SF-6：截图保存    |   外部输入：指令完成提示内部输出：分享操作步骤提示 |
+|  BR-4:当日评价   | SF-7：点亮任务评价星级    |   外部输入：用户当天评价外部输出：本地数据库的任务数据 |  
+
+#### 上下文图  
+![上下文图](https://github.com/jiecaojun/timer/blob/master/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%85%B3%E7%B3%BB.png)
+### 发现并建立DFD片段
+需求与需要响应时间分析   
+
+| &ensp;&ensp;事件&ensp;&ensp;   |   系统的响应      |
+| ---- | ---- |
+| 用户选择日期进行设定 | &ensp;&ensp;系统首先要显示日历界面，在用户选定之后进入指定日期界面，同时查看选定日期是否已经有任务，若有，则需从数据库中读出这个选定日期的任务数据并显示在日期的时间线上。 |
+| 用户添加/修改任务 | 系统根据任务状态是否为空白，若非空白则将任务数据显示成任务信息，并接受用户的任务信息输入，保存成任务数据至数据库，显示在时间线上。 |
+| 用户对当天任务进行评价 | 系统保存信息到数据库，并显示相应的星星。 |
+| 用户通过分享按钮发出请求 | 系统向操作系统发出截图请求，接收到截图成功的提示后，显示分享的操作步骤。 |
+| 任务快要到期 | 系统根据任务截止状态倒计时向系统发送广播，请求将即将截止的任务显示在通知栏。 |
+
+DFD片段图  
+a)  
+![A](https://github.com/jiecaojun/timer/blob/master/DFD(a).png)  
+b)  
+![B](https://github.com/jiecaojun/timer/blob/master/DFD(b).png)  
+c)  
+![C](https://github.com/jiecaojun/timer/blob/master/DFD(c).png)  
+d)  
+![D](https://github.com/jiecaojun/timer/blob/master/DFD(d).png)  
+e)  
+![F](https://github.com/jiecaojun/timer/blob/master/DFD(F).png)  
+### 0层图  
+![0层图](https://github.com/jiecaojun/timer/blob/master/_0层图.png)
+### 微规格说明
+过程1. 接受用户任务信息输入：  
+&ensp;&ensp;IF 任务状态为已有状态，说明是修改任务  
+&ensp;&ensp;&ensp;&ensp;跳转到详情页面，并将原有任务内容显示  
+&ensp;&ensp;ELSE  
+&ensp;&ensp;&ensp;&ensp;直接跳转到详情界面  
+&ensp;&ensp;ENDIF  
+&ensp;&ensp;DO WHILE 用户还在输入  
+&ensp;&ensp;&ensp;&ensp;保持输入状态  
+&ensp;&ensp;END DO  
+&ensp;&ensp;将任务信息保存下来，并跳转到时间线界面，显示当日所有已经添加任务  
+
+过程2. 接受用户日期选择信息：  
+&ensp;&ensp;IF 用户点击日期  
+&ensp;&ensp;&ensp;&ensp;跳转到相应选择日期并输出时间线以及已有任务  
+&ensp;&ensp;ELSE  
+&ensp;&ensp;&ensp;&ensp;回到上一界面  
+&ensp;&ensp;END IF  
+
+过程3. 任务广播到通知栏  
+&ensp;&ensp;IF 任务在指定完成时间前一段设定好的时间还没有完成：  
+&ensp;&ensp;&ensp;&ensp;系统向操作系统发送广播，请求将任务显示在通知栏中  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;IF 操作系统同意请求  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;显示  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;ELSE  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;在下次打开系统时请求权限  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;END IF  
+&ensp;&ensp;END IF  
+
+过程4. 对当日进行评价  
+&ensp;&ensp;IF 接收到了用户对当日的评价信息  
+&ensp;&ensp;&ensp;&ensp;生成评价数据存入数据库  
+&ensp;&ensp;&ensp;&ensp;将评价信息用星星的方式显示出来  
+&ensp;&ensp;END IF  
+
+过程5. 分享  
+&ensp;&ensp;IF 用户选择分享今日任务及自己的评价  
+&ensp;&ensp;&ensp;&ensp;WHILE 系统向操作系统发送截屏请求  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;IF 操作系统截屏成功  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;系统用TOAST方式告诉用户将截图通过社交方式发送即可分享  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;BREAK  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;ELSE  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;系统显示截图失败，并请求开启权限  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;IF 用户拒绝开启  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;BREAK  
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;END IF  
+&ensp;&ensp;END IF  
+### 数据字典
+任务表单数据=任务创建日期+任务结束日期+任务名称+任务详情+任务ID  
+&ensp;&ensp;&ensp;&ensp;任务创建日期=年份+日期+时间  
+&ensp;&ensp;&ensp;&ensp;任务结束日期=年份+日期+时间  
+&ensp;&ensp;&ensp;&ensp;任务名称=0{字符}100  
+&ensp;&ensp;&ensp;&ensp;任务详情=0{字符}500  
+&ensp;&ensp;&ensp;&ensp;任务ID=0{NUMBER}10000  
+&ensp;&ensp;&ensp;&ensp;NUMBER=[0|1|2|3|4|5|6|7|8|9]  
+&ensp;&ensp;评价信息数据=评价星级  
+&ensp;&ensp;&ensp;&ensp;评价星级=[0|1|2|3|4|5]  
+&ensp;&ensp;任务状态=任务ID  
 
 # 项目前景
 ## 前景概述
