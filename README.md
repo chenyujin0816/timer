@@ -399,14 +399,14 @@ FE-10 | N | Y
 
 # 原型系统
 主界面，可以查看当天日程  
-![main](https://github.com/jiecaojun/timer/blob/master/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%85%B3%E7%B3%BB.png)  
+![main](https://github.com/everks/timer/blob/dev/app/Main.jpg)  
 日历界面，进入后可选日期  
-![calenser](https://github.com/jiecaojun/timer/blob/master/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%85%B3%E7%B3%BB.png)  
+![calenser](https://github.com/everks/timer/blob/dev/app/calender.jpg)  
 编辑界面，编辑某个活动的信息  
-![add](https://github.com/jiecaojun/timer/blob/master/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%85%B3%E7%B3%BB.png)  
+![add](https://github.com/everks/timer/blob/dev/app/add.jpg)  
 浏览界面，浏览某个活动的信息  
-![scan](https://github.com/jiecaojun/timer/blob/master/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%85%B3%E7%B3%BB.png) 
+![scan](https://github.com/everks/timer/blob/dev/app/scan.jpg) 
 分享至朋友圈  
-![share](https://github.com/jiecaojun/timer/blob/master/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%85%B3%E7%B3%BB.png)  
+![share](https://github.com/everks/timer/blob/dev/app/share.jpg)  
 编辑信息有限制  
-![failure](https://github.com/jiecaojun/timer/blob/master/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%85%B3%E7%B3%BB.png)  
+![failure](https://github.com/everks/timer/blob/dev/app/failure.jpg)  
