@@ -38,25 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         initView();
-        initData();
         listViewAdapter = new ListViewAdapter(this);
-        String pattern = "yyyy-MM-dd";
-        records = GlobalUtil.getInstance().recordDatabaseHelper.readRecords(DateUtil.getCurTime(pattern));
-        listViewAdapter.setDate(records);
-        listView.setAdapter(listViewAdapter);
-    }
-
-    private void initData() {
-        Record record = new Record();
-        record.setTitle("hhhhh");
-        String pattern = "yyyy-MM-dd";
-        record.setDate(DateUtil.getCurTime(pattern));
-        Log.d("MainActivity", record.getDate());
-        GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
-        GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
-        GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
-        GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
-        GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
+        reloadPage();
     }
 
     private void initView() {
@@ -124,9 +107,16 @@ public class MainActivity extends AppCompatActivity {
         reloadPage();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        reloadPage();
+    }
+
     private void reloadPage(){
         records = GlobalUtil.getInstance().recordDatabaseHelper.readRecords(currentDate);
         listViewAdapter.setDate(records);
+        listView.setAdapter(listViewAdapter);
         long dateLong = DateUtil.getStringToDate(currentDate, DateUtil.stdDatePattern);
         String pattern = "MM/dd";
         dateTextView.setText(DateUtil.getDateToString(dateLong, pattern) + " " + DateUtil.getWeek(dateLong));
@@ -134,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        currentDate = data.getStringExtra("date");
+        if(requestCode==1&&resultCode==1)
+            currentDate = data.getStringExtra("date");
     }
 }
