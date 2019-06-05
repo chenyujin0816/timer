@@ -437,7 +437,7 @@ FE-10 | N | Y
 |分享|点击分享|分享成功与否|
 
 5、具体UML图
-![UML图]()
+![UML图](https://github.com/everks/timer/blob/dev/UML图.png)
 ## 状态图
 1、可能存在的稳定状态  
 &ensp;&ensp;主界面状态：  
@@ -455,6 +455,7 @@ FE-10 | N | Y
 &ensp;&ensp;分享状态  
 &ensp;&ensp;评价状态  
 2、建立状态转换  
+
 |  | 主界面 | 浏览 | 编辑 | 日历 | 分享 | 评价 |
 |-|-|-|-|-|-|-|
 |主界面|Y|Y|Y|Y|Y|Y|
@@ -465,13 +466,13 @@ FE-10 | N | Y
 |评价|Y||||||
 
 3、状态抓换图  
-![状态转换图]()  
+![状态转换图](https://github.com/everks/timer/blob/dev/状态转换图.png)  
 三、活动图  
-![活动图]()  
+![活动图](https://github.com/everks/timer/blob/dev/活动图.png)  
 四、Timer类图  
-![类图]()  
+![类图](https://github.com/everks/timer/blob/dev/timer类图.png)  
 五、用例图  
-![用例图]()  
+![用例图](https://github.com/everks/timer/blob/dev/用例图.jpg)  
 
 # 原型系统
 主界面，可以查看当天日程  
