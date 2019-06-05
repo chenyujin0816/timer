@@ -5,7 +5,7 @@
     android:background="@android:color/white"
     android:padding="30dp">
     <TextView
-        android:id="@+id/item_title_text"
+        android:id="@+id/item_left_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="晚上恰饭啊"
@@ -22,32 +22,31 @@
         android:id="@+id/cirlce_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_point"
+        android:src="@drawable/ic_point_0"
         android:layout_centerVertical="true"
         android:textAlignment="center"
         android:layout_centerHorizontal="true"/>
 
     <TextView
-        android:id="@+id/item_time_text"
+        android:id="@+id/item_right_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="7:30-8:00"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:layout_centerVertical="true"
-        android:textAlignment="center"
         android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@id/cirlce_image"
-        />
+        android:text="7:30-8:00"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
         style="@android:style/Widget.Material.ProgressBar.Horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/item_title_text"
-        android:layout_alignLeft="@id/item_title_text"
-        android:layout_alignRight="@id/item_time_text"
+        android:layout_below="@id/cirlce_image"
+        android:layout_alignLeft="@id/item_left_text"
+        android:layout_alignRight="@id/item_right_text"
         android:layout_alignParentBottom="true"
         android:progress="25" />
 </RelativeLayout>

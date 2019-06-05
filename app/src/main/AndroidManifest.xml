@@ -22,6 +22,12 @@
         </activity>
         <activity android:name=".ScanActivity">
         </activity>
+
+        <provider
+            android:authorities="com.example.android.timer"
+            android:name=".data.RecordProvider"
+            android:enabled="true"
+            android:exported="false"/>
     </application>
 
 </manifest>

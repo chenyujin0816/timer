@@ -2,8 +2,16 @@ package com.example.timer;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +20,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TimePicker;
 
-public class AddActivity extends AppCompatActivity implements View.OnClickListener {
+import com.example.timer.data.TimerContract;
+
+public class AddActivity extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     TimePicker begin;
     TimePicker end;
@@ -30,8 +40,12 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     String sbody;
     String sbegin;
     String send;
+    String date=null;
     long lbegin;
     long lend;
+
+    private Uri currentUri;
+    private static final int ADD_LOADER=2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,43 +63,22 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         end=(TimePicker) findViewById(R.id.end);
         begin.setIs24HourView(true);//是否显示24小时制？默认false
         end.setIs24HourView(true);
-        begin.setHour(0);
-        begin.setMinute(0);
-        end.setHour(23);
-        end.setMinute(59);
         cancle_add=(ImageView)findViewById(R.id.cancle_add);
         finish_add=(ImageView)findViewById(R.id.finish_add);
         title=(EditText)findViewById(R.id.title);
         adress=(EditText)findViewById(R.id.address);
         body=(EditText)findViewById(R.id.body);
+        currentUri=intent.getData();
         if (intent.getStringExtra("date")!=null){
-            record=new Record();
-            record.setDate(intent.getStringExtra("date"));
+            date=intent.getStringExtra("date");
+            begin.setHour(0);
+            begin.setMinute(0);
+            end.setHour(23);
+            end.setMinute(59);
         }
-        else if(intent.getSerializableExtra("edit")!=null){
-            record=(Record)intent.getSerializableExtra("edit");
-            initPage();
+        else if(currentUri!=null){
+            getSupportLoaderManager().initLoader(ADD_LOADER,null,this);
         }
-    }
-
-    private void initPage(){
-        title.setText(record.getTitle());
-        adress.setText(record.getAddress());
-        body.setText(record.getDetail());
-
-        String hour =new String();
-        String min=new String();
-        String time=new String();
-        time=DateUtil.getDateToString(record.getBeginTime(),DateUtil.stdTimePattern);
-        hour=time.substring(0,1);
-        min=time.substring(3,4);
-        begin.setHour(Integer.parseInt(hour));
-        begin.setMinute(Integer.parseInt(min));
-        time=DateUtil.getDateToString(record.getEndTime(),DateUtil.stdTimePattern);
-        hour=time.substring(0,1);
-        min=time.substring(3,4);
-        end.setHour(Integer.parseInt(hour));
-        end.setMinute(Integer.parseInt(min));
     }
 
     private void setListener(){
@@ -116,15 +109,17 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         lbegin=DateUtil.getStringToDate(sbegin,DateUtil.stdTimePattern);
         lend=DateUtil.getStringToDate(send,DateUtil.stdTimePattern);
 
-        record.setTitle(stitle);
-        record.setAddress(sadress);
-        record.setDetail(sbody);
-        record.setBeginTime(lbegin);
-        record.setEndTime(lend);
+        ContentValues values=new ContentValues();
+        values.put(TimerContract.RecordEntry.COLUMN_RECORD_TITLE,stitle);
+        values.put(TimerContract.RecordEntry.COLUMN_RECORD_ADDRESS,sadress);
+        values.put(TimerContract.RecordEntry.COLUMN_RECORD_DETAIL,sbody);
+        values.put(TimerContract.RecordEntry.COLUMN_RECORD_BEGIN_TIME,lbegin);
+        values.put(TimerContract.RecordEntry.COLUMN_RECORD_END_TIME,lend);
+        values.put(TimerContract.RecordEntry.COLUMN_RECORD_DATE,date);
 
-        if(intent.getSerializableExtra("edit")!=null){
+        if(currentUri!=null){
             if(isAnyNull()) {
-                GlobalUtil.getInstance().recordDatabaseHelper.editRecord(record.getUuid(),record);
+                getContentResolver().update(currentUri,values,null,null);
                 finish();
             }
             else{
@@ -132,9 +127,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 sendADialog();
             }
         }
-        else if(intent.getSerializableExtra("date")!=null){
+        else if(date!=null){
             if (isAnyNull()){
-                GlobalUtil.getInstance().recordDatabaseHelper.addRecord(record);
+                getContentResolver().insert(TimerContract.RecordEntry.CONTENT_URI,values);
                 finish();
             }
             else {
@@ -174,5 +169,49 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         });
 
         builder.show();
+    }
+
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        CursorLoader cursorLoader=new CursorLoader(
+                this,
+                currentUri,
+                null,
+                null,
+                null,
+                null);
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        data.moveToFirst();
+        String date=data.getString(data.getColumnIndex(TimerContract.RecordEntry.COLUMN_RECORD_DATE));
+        String title=data.getString(data.getColumnIndex(TimerContract.RecordEntry.COLUMN_RECORD_TITLE));
+        String address=data.getString(data.getColumnIndex(TimerContract.RecordEntry.COLUMN_RECORD_ADDRESS));
+        String detail=data.getString(data.getColumnIndex(TimerContract.RecordEntry.COLUMN_RECORD_DETAIL));
+        long beginTime=data.getLong(data.getColumnIndex(TimerContract.RecordEntry.COLUMN_RECORD_BEGIN_TIME));
+        long endTime=data.getLong(data.getColumnIndex(TimerContract.RecordEntry.COLUMN_RECORD_END_TIME));
+
+        this.title.setText(title);
+        this.adress.setText(address);
+        this.body.setText(detail);
+        String time=DateUtil.getDateToString(beginTime,DateUtil.stdTimePattern);
+        String hour=time.substring(0,2);
+        String min=time.substring(3,5);
+        begin.setHour(Integer.parseInt(hour));
+        begin.setMinute(Integer.parseInt(min));
+        time=DateUtil.getDateToString(endTime,DateUtil.stdTimePattern);
+        hour=time.substring(0,2);
+        min=time.substring(3,5);
+        end.setHour(Integer.parseInt(hour));
+        end.setMinute(Integer.parseInt(min));
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+
     }
 }
