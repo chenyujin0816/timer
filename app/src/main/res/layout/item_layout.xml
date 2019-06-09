@@ -43,10 +43,10 @@
         android:id="@+id/progress_bar"
         style="@android:style/Widget.Material.ProgressBar.Horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_below="@id/cirlce_image"
         android:layout_alignLeft="@id/item_left_text"
         android:layout_alignRight="@id/item_right_text"
         android:layout_alignParentBottom="true"
-        android:progress="25" />
+        android:max="100" />
 </RelativeLayout>

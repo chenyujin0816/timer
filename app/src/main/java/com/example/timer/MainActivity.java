@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private String currentDate;
 
-    private LinkedList<Record> records = new LinkedList<>();
-
     private static final int MAIN_LOADER=0;
 
     @Override
@@ -53,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         recordCursorAdapter=new RecordCursorAdapter(this,null);
         listView.setAdapter(recordCursorAdapter);
         getSupportLoaderManager().initLoader(MAIN_LOADER,null,this);
-
-
 
         reloadPage();
     }

@@ -5,10 +5,11 @@ import android.icu.util.Calendar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class DateUtil {
 
-    public static final String stdDatePattern="yyyy-MM-dd";
+    public static final String stdDatePattern="yyyy/MM/dd";
     public static final String stdTimePattern="HH:mm";
 
     public static long getCurTimeLong(){
@@ -18,17 +19,20 @@ public class DateUtil {
 
     public static String getCurTime(String pattern){
         SimpleDateFormat format=new SimpleDateFormat(pattern);
+        format.setTimeZone(TimeZone.getTimeZone("GMT+08"));
         return format.format(getCurTimeLong());
     }
 
     public static String getDateToString(long milSecond,String pattern){
         Date date=new Date(milSecond);
         SimpleDateFormat format=new SimpleDateFormat(pattern);
+        format.setTimeZone(TimeZone.getTimeZone("GMT+08"));
         return format.format(date);
     }
 
     public static long getStringToDate(String dataString,String pattern){
         SimpleDateFormat format=new SimpleDateFormat(pattern);
+        format.setTimeZone(TimeZone.getTimeZone("GMT+08"));
         Date date=new Date();
         try{
             date=format.parse(dataString);

@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:itemTextAppearance">?android:attr/actionMenuTextAppearance</item>
+        <item name="actionMenuTextAppearance">@style/ActionMenuTheme</item>
+    </style>
+    <!-- toolbar的弹出菜单 -->
+    <style name="ActionMenuTheme" parent="Theme.AppCompat.Light">
+        <!--TODO 1 <item name="android:textColor">@color/color_black_333333</item>-->
+    </style>
 </resources>
